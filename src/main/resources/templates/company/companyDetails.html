@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Компании | CRM-MPT</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="https://i.postimg.cc/g24g9sNk/CRM-short-icon.png" type="image/png">
+</head>
+<header th:insert="fragments/authheader :: authheader"/>
+<body>
+<style type="text/css">
+  .list{
+    list-style-type: none;
+  }
+</style>
+</style>
+<main>
+    <div class="row row-cols-1 pad row-cols-md-3 mb-3 text-center">
+        <div th:each="el: ${Company}" class="col">
+            <div class="card mb-4 rounded-3 shadow-sm" align="center">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Информация о компании</h4>
+                </div>
+                <div class="card-body" align="left">
+                    <li class="list-unstyled mt-3 mb-4">
+                        <li class="list"><b>Компания: </b><span th:text="${el.Title}" class="text"/></li><br>
+                        <li class="list"><b>Город: </b><span th:text="${el.City}" class="text"/></li><br>
+                        <li class="list"><b>Телефон: </b><span th:text="${el.Phone}" class="text"/></li><br>
+                        <li class="list"><b>Email: </b><span th:text="${el.Email}" class="text"/></li><br>
+                        <li class="list"><b>Дата создания: </b><span th:text="${el.Date_creates}" class="text"/></li>
+                    </ul>
+                </div>
+                <div class="card-footer py-3">
+                    <div class="btn-group" role="group">
+                        <a th:href="'/company/update/' + ${el.ID}" class="btn btn-dark">Редактировать</a>
+                        <form th:action="'/company/delete/'+ ${el.ID}" method="post">
+                            <button class="btn btn-dark" type="submit">Удалить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-6 rounded-3 shadow-sm" align="center">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Клиенты</h4>
+                </div>
+            <div class="bs-docs-example">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Телефон</th>
+                        <th>Тип</th>
+                        <th>Статус</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="el: ${Client}">
+                        <td><a th:text="${el.Surname} + ' ' + ${el.Name} + ' ' + ${el.Middle_name}"
+                               th:href ="'/client/' + ${el.ID}"/></td>
+                        <td th:text="${el.Phone}"></td>
+                        <td th:text="${el.Type_client}"></td>
+                        <td th:text="${el.Status_client}"></td>
+                    </tr>
+                    </tbody>
+                </table></div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

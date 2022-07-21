@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Задачи | CRM-MPT</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="https://i.postimg.cc/g24g9sNk/CRM-short-icon.png" type="image/png">
+</head>
+<header th:insert="fragments/authheader :: authheader"/>
+<body>
+<div class="container mt-5 mb-5" th:each="el: ${Task}">
+    <h4 align="center" class="mb-3">Редактирование задачи</h4>
+    <div class="row g-3">
+        <form th:action="'/task/update/' + ${el.ID}" method="post">
+            <div class="col-12">
+                <label for="title" class="form-label">Суть задачи</label>
+                <textarea maxlength="100" th:text="${el.Title}" class="form-control" id="title" name="title" required/>
+            </div>
+
+            <div class="col-12">
+                <label for="date" class="form-label">Срок</label>
+                <input type="date" class="form-control" th:value="${el.Date_end}" id="date" name="date" placeholder="" required>
+            </div>
+
+            <div class="col-12">
+                <label for="type" class="form-label">Тип задачи</label>
+                <select class="form-control" name="type" id="type" required>
+                    <option th:if="${el.Type != null}" th:value="${el.Type}"/><p th:text="${el.Type}"/></option>
+                    <option value="0"/><p>Без типа задачи</p></option>
+                    <option th:each="el: ${Type_task}" th:value="${el.Title}"><p th:text="${el.Title}"/></option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label for="status" class="form-label">Статус задачи</label>
+                <select class="form-control" name="status" id="status" required>
+                    <option th:if="${el.Status != null}" th:value="${el.Status}"/><p th:text="${el.Status}"/></option>
+                    <option value="0"/><p>Без статуса задачи</p></option>
+                    <option th:each="el: ${Status_task}" th:value="${el.Title}"><p th:text="${el.Title}"/></option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label for="deal" class="form-label">Сделка</label>
+                <select class="form-control" name="deal" id="deal" >
+                    <option th:if="${el.Deal_id != null}" th:value="${el.Deal_id}"/><p th:text="${el.Deal}"/></option>
+                    <option value="0"/><p>Без сделки</p></option>
+                    <option th:each="el: ${Deal}" th:value="${el.ID}"><p th:text="${el.Title}"/></option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label for="client" class="form-label">Клиент</label>
+                <select class="form-control" name="client" id="client">
+                    <option th:if="${el.Client_id != null}" th:value="${el.Client_id }"/><p th:text="${el.Client}"/></option>
+                    <option value="0"/><p>Без клиента</p></option>
+                    <option th:each="el: ${Client}" th:value="${el.ID}"><p th:text="${el.Surname} + ' ' + ${el.Name} + ' ' + ${el.Middle_name}"/></option>
+                </select>
+            </div>
+            <br>
+            <button class="w-100 btn btn-lg btn-dark circle" type="submit">Изменить</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
